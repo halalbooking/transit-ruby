@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+#
 # Copyright 2014 Cognitect. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -64,6 +66,10 @@ module Transit
       end
 
       def find_handler(obj)
+        # shortcut for performance
+        handler = @handlers[obj.class]
+        return handler if handler
+
         obj.class.ancestors.each do |a|
           if handler = @handlers[a]
             return handler
